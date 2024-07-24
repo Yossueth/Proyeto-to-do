@@ -1,0 +1,24 @@
+
+
+.container h1 {
+  text-align: center;
+}
+
+.container .search {
+  text-align: center;
+}
+
+@media (max-width: 575px) {
+  .container {
+    width: 100%;
+    background-color: aqua;
+  }
+
+  .container h1 {
+    text-align: left;
+  }
+  
+  .container .search {
+    text-align: right;
+  }
+}
