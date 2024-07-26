@@ -8,17 +8,25 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="h1">Lista de Tareas</h1>
-      <div class="search">
+      <h1 class="h1">Lista de Tareas y Eventos</h1>
+      <div class="tareas">
         <form>
           <input id="inputTask" type="text" placeholder="Agregar tareas..." />
-          
-          <button class="btnAgregar">Agregar</button>
+          <select id="inputSelect">
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+          </select>
+          <button class="btnTareas">Agregar</button>
         </form>
       </div>
-      <div class="li-container">
-        <div id="lista"></div>
+      <div id="eventos">
+        <input id="inputEvent" type="text" placeholder="Agregar Eventos..." />
+        <input id="inputDate" type="date" />
+        <button id="btnEvent">Agregar</button>
       </div>
+      <div id="listaTareas"></div>
+      <div class="listaEventos"></div>
     </div>
 
     <script src="./js/home.js"></script>
