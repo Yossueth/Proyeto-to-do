@@ -1,8 +1,8 @@
 // Variables de tareas
-let inputTask = document.getElementById("inputTask"); // Campo de entrada para la tarea
-let btnTareas = document.querySelector(".btnTareas"); // Botón para agregar tarea
-let listaTareas = document.getElementById("listaTareas"); // Contenedor para la lista de tareas
-let inputSelect = document.getElementById("inputSelect"); // Campo de selección para la prioridad
+let inputTask = document.getElementById("inputTask"); 
+let btnTareas = document.querySelector(".btnTareas"); 
+let listaTareas = document.getElementById("listaTareas"); 
+let inputSelect = document.getElementById("inputSelect"); 
 
 // Carga las tareas desde localStorage y las muestra en la página.
 
@@ -83,10 +83,10 @@ cargarTareas();
 //-----------------------------------//
 
 // Variables eventos
-let inputDate = document.getElementById("inputDate"); // Campo de entrada para la fecha del evento
-let inputEvent = document.getElementById("inputEvent"); // Campo de entrada para el evento
-let btnEvent = document.getElementById("btnEvent"); // Botón para agregar evento
-let listaEventos = document.querySelector(".listaEventos"); // Contenedor para la lista de eventos
+let inputDate = document.getElementById("inputDate"); 
+let inputEvent = document.getElementById("inputEvent"); 
+let btnEvent = document.getElementById("btnEvent"); 
+let listaEventos = document.querySelector(".listaEventos"); 
 
 // Carga los eventos desde localStorage y los muestra en la página.
 
