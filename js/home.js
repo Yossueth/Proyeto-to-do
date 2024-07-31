@@ -6,76 +6,60 @@ let inputSelect = document.getElementById("inputSelect");
 
 // Carga las tareas desde localStorage y las muestra en la página.
 function cargarTareas() {
-  // Obtener tareas del localStorage, si no hay, usar un array vacío
   let guardarTareas = JSON.parse(localStorage.getItem("tareas")) || [];
-  listaTareas.innerHTML = ""; // Limpiar la lista de tareas actual
+  listaTareas.innerHTML = "";
 
-  // Iterar sobre las tareas y crear elementos para cada una
-  guardarTareas.forEach(function (tarea, tareaIndex) {
-    let task = document.createElement("div");
-    task.className = "tarea"; // Asignar clase para estilos
-    task.dataset.index = tareaIndex; // Almacenar el índice de la tarea
+  guardarTareas.forEach(function (tarea, index) {
+    let btntask = document.createElement("div");
+    btntask.className = "tarea"; 
 
-    // Crear el HTML para cada tarea
-    task.innerHTML = `
-      <p>${tarea.task} - Prioridad: ${tarea.priority}</p>
-      <div class="basurero">🗑️</div>
+    btntask.innerHTML = `
+      <p>${tarea.task} - Priority: ${tarea.priority}</p>
+      <button class="btnEliminar" data-index="${index}">Delete</button>
     `;
 
-    listaTareas.appendChild(task); // Agregar la tarea al contenedor
+    listaTareas.appendChild(btntask);
   });
 
-  // Añadir el evento de click a los botones de papelera
-  document.querySelectorAll(".basurero").forEach(function (boton) {
-    boton.addEventListener("click", function () {
-      // Eliminar la tarea correspondiente
-      let tareaIndex = boton.parentElement.dataset.index;
-      deleteTask(tareaIndex);
+  let btnEliminar = document.querySelectorAll(".btnEliminar");
+  btnEliminar.forEach((button) => {
+    button.addEventListener("click", function () {
+      eliminarTarea(button.dataset.index);
     });
   });
 }
 
 // Función para eliminar una tarea
-function deleteTask(tareaIndex) {
-  // Obtener tareas del localStorage
+function eliminarTarea(index) {
   let guardarTareas = JSON.parse(localStorage.getItem("tareas")) || [];
-
-  // Eliminar la tarea en el índice especificado
-  guardarTareas.splice(tareaIndex, 1);
-
-  // Guardar el array actualizado en el localStorage
+  guardarTareas.splice(index, 1);
   localStorage.setItem("tareas", JSON.stringify(guardarTareas));
-
-  // Recargar la lista de tareas
   cargarTareas();
 }
 
 // Evento de agregar tarea
 btnTareas.addEventListener("click", function (event) {
-  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+  event.preventDefault(); 
 
-  let tareas = inputTask.value.trim(); // Obtener el valor de la tarea
-  let prioridad = inputSelect.value; // Obtener la prioridad seleccionada
+  let tareas = inputTask.value.trim();
+  let prioridad = inputSelect.value; 
 
-  // Validar que ambos campos estén llenos
   if (tareas === "" || prioridad === "") {
     alert("Please complete both fields.");
     return;
   }
 
-  // Crear un objeto para la tarea
   let objectTask = {
     task: tareas,
     priority: prioridad,
   };
 
-  // Obtener tareas del localStorage y agregar la nueva tarea
   let guardarTareas = JSON.parse(localStorage.getItem("tareas")) || [];
   guardarTareas.push(objectTask);
   localStorage.setItem("tareas", JSON.stringify(guardarTareas));
 
-  inputTask.value = ""; // Limpiar el campo del input
-  cargarTareas(); // Recargar la lista de tareas
+  inputTask.value = ""; 
+  cargarTareas(); 
 });
 
 // Cargar tareas al inicio
@@ -90,75 +74,63 @@ let btnEvent = document.getElementById("btnEvent");
 let listaEventos = document.querySelector(".listaEventos");
 
 // Carga los eventos desde localStorage y los muestra en la página.
-
 function cargarEventos() {
-  // Obtener eventos del localStorage, si no hay, usar un array vacío
   let guardarEventos = JSON.parse(localStorage.getItem("eventos")) || [];
-  listaEventos.innerHTML = ""; // Limpiar la lista de eventos actual
+  listaEventos.innerHTML = ""; 
 
-  // Iterar sobre los eventos y crear elementos para cada uno
   guardarEventos.forEach(function (evento, eventoIndex) {
     let event = document.createElement("div");
-    event.className = "evento"; // Asignar clase para estilos
-    event.dataset.index = eventoIndex; // Guardar el índice del evento en el dataset
-    // Crear el HTML para cada evento
+    event.className = "evento"; 
+    event.dataset.index = eventoIndex; 
+
     event.innerHTML = `
       ${evento.event} - Date: ${evento.date}
-      <button class="btnDeleteEvent">Eliminar</button>
+      <button class="btnDeleteEvent" data-index="${eventoIndex}">Eliminar</button>
     `;
 
-    listaEventos.appendChild(event); // Agregar el evento al contenedor
+    listaEventos.appendChild(event); 
+  });
+
+  // Agregar evento de eliminación a los botones de eliminar
+  let btnDeleteEvent = document.querySelectorAll(".btnDeleteEvent");
+  btnDeleteEvent.forEach((button) => {
+    button.addEventListener("click", function () {
+      eliminarEvento(button.dataset.index);
+    });
   });
 }
 
 function eliminarEvento(eventoIndex) {
-  // Obtener eventos del localStorage
   let guardarEventos = JSON.parse(localStorage.getItem("eventos")) || [];
-  // Eliminar el evento del array
   guardarEventos.splice(eventoIndex, 1);
-  // Actualizar el localStorage
   localStorage.setItem("eventos", JSON.stringify(guardarEventos));
-  // Recargar la lista de eventos
   cargarEventos();
 }
 
 // Evento de agregar evento
 btnEvent.addEventListener("click", function (event) {
-  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+  event.preventDefault(); 
 
-  let evento = inputEvent.value.trim(); // Obtener el valor del evento
-  let date = inputDate.value.trim(); // Obtener la fecha del evento
+  let evento = inputEvent.value.trim(); 
+  let date = inputDate.value.trim(); 
 
-  // Validar que ambos campos estén llenos
   if (evento === "" || date === "") {
     alert("Please complete both fields.");
     return;
   }
 
-  // Crear un objeto para el evento
   let objectEvent = {
     event: evento,
     date: date,
   };
 
-  // Obtener eventos del localStorage y agregar el nuevo evento
   let guardarEventos = JSON.parse(localStorage.getItem("eventos")) || [];
   guardarEventos.push(objectEvent);
   localStorage.setItem("eventos", JSON.stringify(guardarEventos));
 
-  inputEvent.value = ""; // Limpiar el campo del input
-  inputDate.value = ""; // Limpiar el campo de input
-  cargarEventos(); // Recargar la lista de eventos
-});
-
-// Evento de eliminar evento
-listaEventos.addEventListener("click", function (event) {
-  if (event.target.classList.contains("btnDeleteEvent")) {
-    // Encontrar el elemento de evento más cercano al botón clicado
-    let eventElement = event.target.closest(".evento");
-    let eventoIndex = eventElement.dataset.index; // Obtener el índice del evento
-    eliminarEvento(eventoIndex); // Llama a la función para eliminar el evento
-  }
+  inputEvent.value = ""; 
+  inputDate.value = ""; 
+  cargarEventos(); 
 });
 
 // Cargar eventos al inicio
