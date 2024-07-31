@@ -1,11 +1,10 @@
 // Variables de tareas
-let inputTask = document.getElementById("inputTask"); 
-let btnTareas = document.querySelector(".btnTareas"); 
-let listaTareas = document.getElementById("listaTareas"); 
-let inputSelect = document.getElementById("inputSelect"); 
+let inputTask = document.getElementById("inputTask");
+let btnTareas = document.querySelector(".btnTareas");
+let listaTareas = document.getElementById("listaTareas");
+let inputSelect = document.getElementById("inputSelect");
 
 // Carga las tareas desde localStorage y las muestra en la página.
-
 function cargarTareas() {
   // Obtener tareas del localStorage, si no hay, usar un array vacío
   let guardarTareas = JSON.parse(localStorage.getItem("tareas")) || [];
@@ -15,31 +14,43 @@ function cargarTareas() {
   guardarTareas.forEach(function (tarea, tareaIndex) {
     let task = document.createElement("div");
     task.className = "tarea"; // Asignar clase para estilos
-    task.dataset.index = tareaIndex; // Guardar el índice de la tarea en el dataset
+    task.dataset.index = tareaIndex; // Almacenar el índice de la tarea
 
     // Crear el HTML para cada tarea
     task.innerHTML = `
       <p>${tarea.task} - Prioridad: ${tarea.priority}</p>
-      <button class="btnDelete">Eliminar</button>
+      <div class="basurero">🗑️</div>
     `;
 
     listaTareas.appendChild(task); // Agregar la tarea al contenedor
   });
+
+  // Añadir el evento de click a los botones de papelera
+  document.querySelectorAll(".basurero").forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      // Eliminar la tarea correspondiente
+      let tareaIndex = boton.parentElement.dataset.index;
+      deleteTask(tareaIndex);
+    });
+  });
 }
 
-//funcion eliminar tareas
-function eliminarTarea(tareaIndex) {
+// Función para eliminar una tarea
+function deleteTask(tareaIndex) {
   // Obtener tareas del localStorage
   let guardarTareas = JSON.parse(localStorage.getItem("tareas")) || [];
-  // Eliminar la tarea del array
+
+  // Eliminar la tarea en el índice especificado
   guardarTareas.splice(tareaIndex, 1);
-  // Actualizar el localStorage
+
+  // Guardar el array actualizado en el localStorage
   localStorage.setItem("tareas", JSON.stringify(guardarTareas));
+
   // Recargar la lista de tareas
   cargarTareas();
 }
 
-// Manejar el evento de agregar tarea
+// Evento de agregar tarea
 btnTareas.addEventListener("click", function (event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -63,30 +74,20 @@ btnTareas.addEventListener("click", function (event) {
   guardarTareas.push(objectTask);
   localStorage.setItem("tareas", JSON.stringify(guardarTareas));
 
-  inputTask.value = ""; // Limpiar el campo de entrada
+  inputTask.value = ""; // Limpiar el campo del input
   cargarTareas(); // Recargar la lista de tareas
-});
-
-// Manejar el evento de eliminar tarea
-listaTareas.addEventListener("click", function (event) {
-  if (event.target.classList.contains("btnDelete")) {
-    // Encontrar el elemento de tarea más cercano al botón clicado
-    let taskElement = event.target.closest(".tarea");
-    let tareaIndex = taskElement.dataset.index; // Obtener el índice de la tarea
-    eliminarTarea(tareaIndex); // Llamar a la función para eliminar la tarea
-  }
 });
 
 // Cargar tareas al inicio
 cargarTareas();
 
-//-----------------------------------//
+//------------------------------------------------------------------------------//
 
 // Variables eventos
-let inputDate = document.getElementById("inputDate"); 
-let inputEvent = document.getElementById("inputEvent"); 
-let btnEvent = document.getElementById("btnEvent"); 
-let listaEventos = document.querySelector(".listaEventos"); 
+let inputDate = document.getElementById("inputDate");
+let inputEvent = document.getElementById("inputEvent");
+let btnEvent = document.getElementById("btnEvent");
+let listaEventos = document.querySelector(".listaEventos");
 
 // Carga los eventos desde localStorage y los muestra en la página.
 
@@ -121,7 +122,7 @@ function eliminarEvento(eventoIndex) {
   cargarEventos();
 }
 
-// Manejar el evento de agregar evento
+// Evento de agregar evento
 btnEvent.addEventListener("click", function (event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -145,18 +146,18 @@ btnEvent.addEventListener("click", function (event) {
   guardarEventos.push(objectEvent);
   localStorage.setItem("eventos", JSON.stringify(guardarEventos));
 
-  inputEvent.value = ""; // Limpiar el campo de entrada
-  inputDate.value = ""; // Limpiar el campo de fecha
+  inputEvent.value = ""; // Limpiar el campo del input
+  inputDate.value = ""; // Limpiar el campo de input
   cargarEventos(); // Recargar la lista de eventos
 });
 
-// Manejar el evento de eliminar evento
+// Evento de eliminar evento
 listaEventos.addEventListener("click", function (event) {
   if (event.target.classList.contains("btnDeleteEvent")) {
     // Encontrar el elemento de evento más cercano al botón clicado
     let eventElement = event.target.closest(".evento");
     let eventoIndex = eventElement.dataset.index; // Obtener el índice del evento
-    eliminarEvento(eventoIndex); // Llamar a la función para eliminar el evento
+    eliminarEvento(eventoIndex); // Llama a la función para eliminar el evento
   }
 });
 
